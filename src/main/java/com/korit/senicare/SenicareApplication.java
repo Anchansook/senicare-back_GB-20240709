@@ -1,3 +1,4 @@
+//# $ git rm -r --cached . : 캐시 정리 & 삭제
 package com.korit.senicare;
 
 import org.springframework.boot.SpringApplication;
