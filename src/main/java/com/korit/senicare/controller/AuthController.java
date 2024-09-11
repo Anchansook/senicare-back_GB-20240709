@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.korit.senicare.dto.request.auth.IdCheckRequestDto;
+import com.korit.senicare.dto.request.auth.TelAuthRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.service.AuthService;
 
@@ -26,6 +27,15 @@ public class AuthController {
         @RequestBody @Valid IdCheckRequestDto requestBody
     ) {
         ResponseEntity<ResponseDto> response = authService.idCheck(requestBody);
+        return response;
+    }
+
+    // 전화번호 인증
+    @PostMapping("/tel-auth")
+    public ResponseEntity<ResponseDto> telAuth(
+        @RequestBody @Valid TelAuthRequestDto requestBody
+    ) {
+        ResponseEntity<ResponseDto> response = authService.telAuth(requestBody);
         return response;
     }
     

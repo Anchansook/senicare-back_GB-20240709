@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.korit.senicare.common.util.AuthNumberCreator;
 import com.korit.senicare.dto.request.auth.IdCheckRequestDto;
+import com.korit.senicare.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.senicare.dto.request.auth.TelAuthRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.entity.TelAuthNumberEntity;
@@ -62,7 +63,8 @@ public class AuthServiceImplement implements AuthService {
         String authNumber = AuthNumberCreator.number4();
 
         // telNumber에 생성한 4자리의 인증 번호를 전송
-        smsProvider.sendMessage(telNumber, authNumber);
+        boolean isSendSuccess = smsProvider.sendMessage(telNumber, authNumber);
+        if (!isSendSuccess) return ResponseDto.messageSendFail();
 
         try {
             // 데이터베이스의 tel_auth_number 테이블에 telNumber와 생성한 4자리의 인증 번호를 저장
@@ -73,6 +75,15 @@ public class AuthServiceImplement implements AuthService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+
+        return ResponseDto.success();
+
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> telAuthCheck(TelAuthCheckRequestDto dto) {
+
+        
 
         return ResponseDto.success();
 
