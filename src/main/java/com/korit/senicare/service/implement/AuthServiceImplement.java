@@ -8,6 +8,7 @@ import com.korit.senicare.dto.request.auth.IdCheckRequestDto;
 import com.korit.senicare.dto.request.auth.TelAuthRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.entity.TelAuthNumberEntity;
+import com.korit.senicare.provider.SmsProvider;
 import com.korit.senicare.repository.NurseRepository;
 import com.korit.senicare.repository.TelAuthNumberRepository;
 import com.korit.senicare.service.AuthService;
@@ -17,6 +18,8 @@ import lombok.RequiredArgsConstructor;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImplement implements AuthService {
+
+    private final SmsProvider smsProvider;
 
     private final NurseRepository nurseRepository;
     private final TelAuthNumberRepository telAuthNumberRepository;
@@ -48,7 +51,7 @@ public class AuthServiceImplement implements AuthService {
 
         try {
 
-            boolean isExistedTelNumber = nurseRepository.exexistsByTelNumber(telNumber);
+            boolean isExistedTelNumber = nurseRepository.existsByTelNumber(telNumber);
             if (isExistedTelNumber) return ResponseDto.duplicatedaTelNumber(); 
 
         } catch(Exception exception) {
@@ -57,6 +60,9 @@ public class AuthServiceImplement implements AuthService {
         }
 
         String authNumber = AuthNumberCreator.number4();
+
+        // telNumber에 생성한 4자리의 인증 번호를 전송
+        smsProvider.sendMessage(telNumber, authNumber);
 
         try {
             // 데이터베이스의 tel_auth_number 테이블에 telNumber와 생성한 4자리의 인증 번호를 저장
