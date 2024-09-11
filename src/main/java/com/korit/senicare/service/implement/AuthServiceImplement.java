@@ -83,7 +83,18 @@ public class AuthServiceImplement implements AuthService {
     @Override
     public ResponseEntity<ResponseDto> telAuthCheck(TelAuthCheckRequestDto dto) {
 
-        
+        String telNumber = dto.getTelNumber();
+        String authNumber = dto.getAuthNumber();
+
+        try {
+
+            boolean isMatched = telAuthNumberRepository.existsByTelNumberAndAuthNumber(telNumber, authNumber);
+            if (!isMatched) return ResponseDto.telAuthFail();
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
 
         return ResponseDto.success();
 
