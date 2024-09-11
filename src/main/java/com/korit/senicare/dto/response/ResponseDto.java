@@ -23,6 +23,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.OK).body(responseBody);
     }
 
+    public static ResponseEntity<ResponseDto> validationFail() {
+        ResponseDto responsBody = new ResponseDto(ResponseCode.VALIDATION_FAIL, ResponseMessage.VALIDATION_FAIL);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsBody);
+    }
+
     public static ResponseEntity<ResponseDto> duplicatedUserId() {
         ResponseDto responsBody = new ResponseDto(ResponseCode.DUPLICATED_USER_ID, ResponseMessage.DUPLICATED_USER_ID);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsBody);
