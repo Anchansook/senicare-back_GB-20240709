@@ -1,5 +1,6 @@
 package com.korit.senicare.service.implement;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +26,14 @@ public class AuthServiceImplement implements AuthService {
 
             // 해당 리포지토리에서 사용할 쿼리 작성해야 함
             boolean isExistedId = nurseRepository.existsByUserId(userId); 
+            if (isExistedId) return ResponseDto.duplicatedUserId();
 
         } catch(Exception exception) {
             exception.printStackTrace();
+            return ResponseDto.databaseError();
         }
+
+        return ResponseDto.success();
         
     }
     
