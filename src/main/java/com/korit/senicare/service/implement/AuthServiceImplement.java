@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.korit.senicare.common.util.AuthNumberCreator;
 import com.korit.senicare.dto.request.auth.IdCheckRequestDto;
+import com.korit.senicare.dto.request.auth.SignUpRequestDto;
 import com.korit.senicare.dto.request.auth.TelAuthCheckRequestDto;
 import com.korit.senicare.dto.request.auth.TelAuthRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
@@ -20,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class AuthServiceImplement implements AuthService {
 
-    private final SmsProvider smsProvider;
+    private final SmsProvider smsProvider; 
 
     private final NurseRepository nurseRepository;
     private final TelAuthNumberRepository telAuthNumberRepository;
@@ -95,6 +96,13 @@ public class AuthServiceImplement implements AuthService {
             exception.printStackTrace();
             return ResponseDto.databaseError();
         }
+
+        return ResponseDto.success();
+
+    }
+
+    @Override
+    public ResponseEntity<ResponseDto> signUp(SignUpRequestDto dto) {
 
         return ResponseDto.success();
 
