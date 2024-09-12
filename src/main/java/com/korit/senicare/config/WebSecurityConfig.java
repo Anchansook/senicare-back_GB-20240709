@@ -56,6 +56,7 @@ public class WebSecurityConfig {
 
     }
 
+    // CORS 설정
     @Bean
     protected CorsConfigurationSource configurationSource() {
 
