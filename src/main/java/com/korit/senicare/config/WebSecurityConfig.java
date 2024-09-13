@@ -15,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import com.korit.senicare.filter.JwtAuthenticationFilter;
+import com.korit.senicare.handler.OAuth2SuccessHandler;
 import com.korit.senicare.service.implement.OAuth2UserServiceImplement;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class WebSecurityConfig {
 
+    private final OAuth2SuccessHandler oAuth2SuccessHandler;
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final OAuth2UserServiceImplement oAuth2UserService;
 
@@ -56,6 +58,7 @@ public class WebSecurityConfig {
                 .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
                 .authorizationEndpoint(endpoint -> endpoint.baseUri("/api/v1/auth/sns-sign-in"))
                 .userInfoEndpoint(endpoint -> endpoint.userService(oAuth2UserService))
+                .successHandler(oAuth2SuccessHandler)
             )
             // 필터 등록
             .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

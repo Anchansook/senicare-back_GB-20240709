@@ -1,8 +1,7 @@
 package com.korit.senicare.handler;
 
 import java.io.IOException;
-
-import java.util.*;
+import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
@@ -21,22 +20,25 @@ public class OAuth2SuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
     @Override
     public void onAuthenticationSuccess(
-        HttpServletRequest request,
-        HttpServletResponse response,
-        Authentication authentication
-    ) throws IOException, ServletException {
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Authentication authentication) throws IOException, ServletException {
 
         CustomOAuth2User customOAuth2User = (CustomOAuth2User) authentication.getPrincipal();
-        String userId = customOAuth2User.getName();
         Map<String, Object> attributes = customOAuth2User.getAttributes();
+        boolean existed = customOAuth2User.isExisted();
 
-        if (userId == null) {
+        // 회원가입 O
+        if (existed) {
+            String accessToken = (String) attributes.get("accessToken");
+            response.sendRedirect("http://localhost:3000/sns-success?accessToken=" + accessToken + "&expiration=36000");
+        }
+        // 회원가입 X
+        else {
             String snsId = (String) attributes.get("snsId");
             String joinPath = (String) attributes.get("joinPath");
-        } else {
-            String accessToken = (String) attributes.get("accessToken");
+            response.sendRedirect("http://localhost:3000/auth?snsId=" + snsId + "&joinPath=" + joinPath);
         }
 
     }
-    
 }
