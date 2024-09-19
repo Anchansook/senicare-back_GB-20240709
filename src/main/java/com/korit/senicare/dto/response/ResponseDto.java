@@ -39,6 +39,11 @@ public class ResponseDto {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsBody);
     }
 
+    public static ResponseEntity<ResponseDto> noExistUserId() {
+        ResponseDto responsBody = new ResponseDto(ResponseCode.NO_EXIST_USER_ID, ResponseMessage.NO_EXIST_USER_ID);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(responsBody);
+    }
+
     public static ResponseEntity<ResponseDto> telAuthFail() {
         ResponseDto responsBody = new ResponseDto(ResponseCode.TEL_AUTH_FAIL, ResponseMessage.TEL_AUTH_FAIL);
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responsBody);
@@ -65,3 +70,5 @@ public class ResponseDto {
     }
     
 }
+
+// AUTHENTICATION_FAIL : 다른 곳에서 작업
