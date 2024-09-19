@@ -1,5 +1,7 @@
 package com.korit.senicare.config;
 
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,16 +10,23 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CsrfConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HttpBasicConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import com.korit.senicare.dto.response.ResponseCode;
+import com.korit.senicare.dto.response.ResponseMessage;
 import com.korit.senicare.filter.JwtAuthenticationFilter;
 import com.korit.senicare.handler.OAuth2SuccessHandler;
 import com.korit.senicare.service.implement.OAuth2UserServiceImplement;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 
 //# 3.
@@ -53,6 +62,11 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
             )
 
+            // 인증 및 인가 작업 중 발생하는 예외 처리
+            .exceptionHandling(exception -> exception
+                .authenticationEntryPoint(new AuthenticationFailEntryPoint())
+            )
+
             // oAuth2 로그인 적용
             .oauth2Login(oauth2 -> oauth2
                 .redirectionEndpoint(endpoint -> endpoint.baseUri("/oauth2/callback/*"))
@@ -83,4 +97,21 @@ public class WebSecurityConfig {
 
     }
     
+}
+
+class AuthenticationFailEntryPoint implements AuthenticationEntryPoint {
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response,
+            AuthenticationException authException) throws IOException, ServletException {
+
+        authException.printStackTrace();
+        // response 객체를 직접 설정할 경우에는 아래처럼 직접적으로 해야 함
+        response.setContentType("application/json");
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        response.getWriter()
+            .write("{\"code\": \"" + ResponseCode.AUTHENTICATION_FAIL + "\", \"message\": \"" + ResponseMessage.AUTHENTICATION_FAIL + "\"}");
+
+    }
+
 }
