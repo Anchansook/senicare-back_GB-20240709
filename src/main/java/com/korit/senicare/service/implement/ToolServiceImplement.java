@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.korit.senicare.dto.request.tool.PatchToolRequestDto;
 import com.korit.senicare.dto.request.tool.PostToolRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.tool.GetToolListResponseDto;
@@ -81,5 +82,46 @@ public class ToolServiceImplement implements ToolService {
     }
     // 리스트로 조회 : 없어도 빈 값으로 반환
     // 단일로 조회 : 없을 때 에러 응답 반환
+
+    // 용품 수정
+    @Override
+    public ResponseEntity<ResponseDto> patchTool(Integer toolNumber, PatchToolRequestDto dto) {
+
+        try {
+
+            ToolEntity toolEntity = toolRepository.findByToolNumber(toolNumber);
+            if (toolEntity == null) return ResponseDto.noExistTool();
+
+            toolEntity.patch(dto);
+            toolRepository.save(toolEntity);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+        
+        return ResponseDto.success();
+
+    }
+
+    // 용품 삭제
+    @Override
+    public ResponseEntity<ResponseDto> deleteTool(Integer toolNumber) {
+
+        try {
+
+            ToolEntity toolEntity = toolRepository.findByToolNumber(toolNumber);
+            if (toolEntity == null) return ResponseDto.noExistTool();
+
+            toolRepository.delete(toolEntity);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
+    }
     
 }
