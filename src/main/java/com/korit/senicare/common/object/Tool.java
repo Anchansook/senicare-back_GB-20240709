@@ -30,7 +30,7 @@ public class Tool {
     public static List<Tool> getList(List<ToolEntity> toolEntities) {
 
         List<Tool> tools = new ArrayList<>();
-        // for-in 문
+        // for-each 문
         for (ToolEntity toolEntity: toolEntities) {
             Tool tool = new Tool(toolEntity);
             tools.add(tool);
