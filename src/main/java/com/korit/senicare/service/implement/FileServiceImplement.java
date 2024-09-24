@@ -1,0 +1,59 @@
+package com.korit.senicare.service.implement;
+
+import java.io.File;
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.korit.senicare.service.FileService;
+
+@Service
+public class FileServiceImplement implements FileService {
+
+    // properties에 만들어둔 값 들고오기
+    @Value("${file.path}") 
+    private String filePath;
+    @Value("${file.url}")
+    private String fileUrl;
+
+    @Override
+    public String upload(MultipartFile file) {
+
+        // description: 빈 파일인지 확인 //
+        if (file.isEmpty()) return null;
+
+        // 파일이 넘어오면 정보가 다 넘어옴 그렇기 때문에 작업 필요 ▼
+        // description: 원본 파일명 구하기 //
+        String originalFileName = file.getOriginalFilename();
+        // description: 확장자 구하기, 확장자는 늘 유지해야 함! //
+        String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
+        // description: UUID 형식의 임의의 파일명 생성 //
+        String uuid = UUID.randomUUID().toString();
+        String saveFileName = uuid + extension; // 저장할 파일명
+        // description: 파일이 저장될 경로 //
+        String savePath = filePath + saveFileName; // 저장될 때 마지막에 파일명이 붙기 때문
+
+        // description: 파일 저장, 저장할 때 예외가 발생할 수 있음 //
+        try {
+            file.transferTo(new File(savePath));
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+
+        // description: 파일을 불러올 수 있는 경로 반환, 클라이언트가 파일 요청할 때 //
+        String url = fileUrl + saveFileName;
+        return url;
+
+    }
+
+    @Override
+    public Resource getFile(String fileName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getFile'");
+    }
+    
+}
