@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -28,7 +29,7 @@ public class FileServiceImplement implements FileService {
         // 파일이 넘어오면 정보가 다 넘어옴 그렇기 때문에 작업 필요 ▼
         // description: 원본 파일명 구하기 //
         String originalFileName = file.getOriginalFilename();
-        // description: 확장자 구하기, 확장자는 늘 유지해야 함! //
+        // description: 확장자(ex: .java, .md) 구하기, 확장자는 늘 유지해야 함! //
         String extension = originalFileName.substring(originalFileName.lastIndexOf("."));
         // description: UUID 형식의 임의의 파일명 생성 //
         String uuid = UUID.randomUUID().toString();
@@ -52,8 +53,20 @@ public class FileServiceImplement implements FileService {
 
     @Override
     public Resource getFile(String fileName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getFile'");
+
+        // try-catch문을 사용하기 때문에 밖으로 빼둠
+        Resource resource = null;
+
+        // description: 파일 저장 경로에 있는 파일명에 해당하는 파일 불러오기 //
+        try {
+            resource = new UrlResource("file:" + filePath + fileName);
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return null;
+        }
+
+        return resource;
+
     }
     
 }
