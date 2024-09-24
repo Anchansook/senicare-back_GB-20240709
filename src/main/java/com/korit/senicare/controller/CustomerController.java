@@ -20,6 +20,7 @@ public class CustomerController {
 
     private final CustomerService customerService;
 
+    // 고객 등록 
     @PostMapping(value={"", "/"})
     public ResponseEntity<ResponseDto> postCustomer(
         @RequestBody @Valid PostCustomerRequestDto requestDto
