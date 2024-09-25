@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseListResponseDto;
+import com.korit.senicare.dto.response.nurse.GetNurseResponseDto;
 import com.korit.senicare.dto.response.nurse.GetSignInResponseDto;
 import com.korit.senicare.entity.NurseEntity;
 import com.korit.senicare.repository.NurseRepository;
@@ -21,6 +22,7 @@ public class NurseServiceImplement implements NurseService {
 
     private final NurseRepository nurseRepository;
 
+    // 로그인 유저 정보 확인
     @Override
     public ResponseEntity<? super GetSignInResponseDto> getSignIn(String userId) {
 
@@ -40,6 +42,7 @@ public class NurseServiceImplement implements NurseService {
 
     }
 
+    // 요양사 리스트 보기
     @Override
     public ResponseEntity<? super GetNurseListResponseDto> getNurseList() {
 
@@ -57,5 +60,26 @@ public class NurseServiceImplement implements NurseService {
         return GetNurseListResponseDto.success(nurseEntities);
 
     }
+
+    // 요양사 정보 확인
+    @Override
+    public ResponseEntity<? super GetNurseResponseDto> getNurse(String userId) {
+
+        NurseEntity nurseEntity = null;
+
+        try {
+
+            nurseEntity = nurseRepository.findByUserId(userId);
+            if (nurseEntity == null) return ResponseDto.noExistUserId();
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetNurseResponseDto.success(nurseEntity);
+
+    }
+    // 로직 똑같아도 남 정보, 내 정보 불러오기 별개로
     
 }

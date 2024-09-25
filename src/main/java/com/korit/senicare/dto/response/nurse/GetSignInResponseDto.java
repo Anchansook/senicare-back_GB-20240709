@@ -10,6 +10,8 @@ import com.korit.senicare.entity.NurseEntity;
 
 import lombok.Getter;
 
+//# 로그인 유저 정보 확인
+
 // 생성자 직접 만듦 Setter X
 @Getter
 public class GetSignInResponseDto extends ResponseDto {
