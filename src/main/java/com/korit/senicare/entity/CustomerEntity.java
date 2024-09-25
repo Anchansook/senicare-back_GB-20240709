@@ -1,5 +1,6 @@
 package com.korit.senicare.entity;
 
+import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 
 import jakarta.persistence.Entity;
@@ -32,6 +33,16 @@ public class CustomerEntity {
 
     // 생성자
     public CustomerEntity(PostCustomerRequestDto dto) {
+        this.profileImage = dto.getProfileImage();
+        this.name = dto.getName();
+        this.birth = dto.getBirth();
+        this.charger = dto.getCharger();
+        this.address = dto.getAddress();
+        this.location = dto.getLocation();
+    }
+
+    // 생성되어 있는 것을 바꾸기 위한 용도 (고객 수정)
+    public void patch(PatchCustomerRequestDto dto) {
         this.profileImage = dto.getProfileImage();
         this.name = dto.getName();
         this.birth = dto.getBirth();

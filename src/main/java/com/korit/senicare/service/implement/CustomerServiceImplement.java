@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerListResponseDto;
@@ -77,7 +78,8 @@ public class CustomerServiceImplement implements CustomerService {
 
         try {
 
-            resultSet = customerRepository
+            resultSet = customerRepository.getCustomer(customerNumber);
+            if (resultSet == null) return ResponseDto.noExistCustomer();
 
         } catch(Exception exception) {
             exception.printStackTrace();
@@ -85,6 +87,34 @@ public class CustomerServiceImplement implements CustomerService {
         }
 
         return GetCustomerResponseDto.success(resultSet);
+
+    }
+
+    // 고객 수정
+    @Override
+    public ResponseEntity<ResponseDto> patchCustomer(
+            PatchCustomerRequestDto dto,
+            Integer customerNumber,
+            String userId) {
+
+        try {
+
+            CustomerEntity customerEntity = customerRepository.findByCustomerNumber(customerNumber);
+            if (customerEntity == null) return ResponseDto.noExistCustomer();
+
+            String charger = customerEntity.getCharger();
+            boolean isCharger = charger.equals(userId);
+            if (!isCharger) return ResponseDto.noPermission();
+
+            customerEntity.patch(dto);
+            customerRepository.save(customerEntity);
+
+        } catch (Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
 
     }
     

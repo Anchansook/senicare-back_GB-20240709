@@ -10,7 +10,7 @@ import com.korit.senicare.repository.resultSet.GetCustomerResultSet;
 
 import lombok.Getter;
 
-//# 고객 정보 보기
+//# 고객 정보 보기를 했을 때 데이터를 전달하기 위한 객체
 
 @Getter
 public class GetCustomerResponseDto extends ResponseDto {
