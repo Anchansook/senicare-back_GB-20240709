@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
+import com.korit.senicare.dto.request.customer.PostCareRecordRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerListResponseDto;
@@ -71,6 +72,24 @@ public class CustomerController {
         @AuthenticationPrincipal String userId
     ) {
         ResponseEntity<ResponseDto> response = customerService.deleteCustomer(customerNumber, userId);
+        return response;
+    }
+
+    // 기록 작성
+    @PostMapping("/{customerNumber}/care-record")
+    public ResponseEntity<ResponseDto> postCareRecord(
+        @RequestBody @Valid PostCareRecordRequestDto requestBody,
+        @PathVariable("customerNumber") Integer customerNumber,
+        @AuthenticationPrincipal String userId
+    ) {
+        Integer usedToolNumber = requestBody.getUsedToolNumber();
+        Integer count = requestBody.getCount();
+        if (
+            (usedToolNumber != null && count == null) ||
+            (usedToolNumber == null && count != null)
+        ) return ResponseDto.validationFail();
+
+        ResponseEntity<ResponseDto> response = customerService.postCareRecord(requestBody, customerNumber, userId);
         return response;
     }
     

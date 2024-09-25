@@ -45,5 +45,10 @@ public class ToolEntity {
         this.count = dto.getCount();
 
     }
-    
+
+    // 사용한 용품 개수 감소
+    public void decreaseCount(Integer usedCount) {
+        this.count -= usedCount;
+    }
+
 }
