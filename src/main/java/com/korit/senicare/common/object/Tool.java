@@ -7,7 +7,8 @@ import com.korit.senicare.entity.ToolEntity;
 
 import lombok.Getter;
 
-// 용품 리스트 객체
+//# 용품 리스트 객체
+
 @Getter
 public class Tool {
 

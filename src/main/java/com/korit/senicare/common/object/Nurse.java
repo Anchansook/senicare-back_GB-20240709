@@ -7,7 +7,8 @@ import com.korit.senicare.entity.NurseEntity;
 
 import lombok.Getter;
 
-// 요양사 리스트 객체
+//# 요양사 리스트 객체
+
 @Getter
 public class Nurse {
     private String nurseId;

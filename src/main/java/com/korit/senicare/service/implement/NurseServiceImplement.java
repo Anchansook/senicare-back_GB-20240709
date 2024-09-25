@@ -80,6 +80,6 @@ public class NurseServiceImplement implements NurseService {
         return GetNurseResponseDto.success(nurseEntity);
 
     }
-    // 로직 똑같아도 남 정보, 내 정보 불러오기 별개로
+    // 로직 똑같아도 남 정보, 내 정보 불러오기 별개로 작성해야 함
     
 }

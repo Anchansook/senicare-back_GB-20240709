@@ -10,7 +10,8 @@ import com.korit.senicare.entity.NurseEntity;
 
 import lombok.Getter;
 
-//# 요양사 정보 확인
+//# 요양사 정보 확인 시 주고 받을 데이터 전달 객체
+
 @Getter
 public class GetNurseResponseDto extends ResponseDto {
     private String userId;
