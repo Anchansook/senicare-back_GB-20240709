@@ -1,13 +1,10 @@
 package com.korit.senicare.repository.resultSet;
 
-//# 고객 정보 보기
-
-public interface GetCustomerResultSet {
+public interface GetCustomersResultSet {
     Integer getCustomerNumber();
-    String getProfileImage();
     String getName();
     String getBirth();
+    String getLocation();
     String getChargerName();
     String getChargerId();
-    String getAddress();
 }

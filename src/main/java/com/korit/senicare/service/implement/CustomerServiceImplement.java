@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerListResponseDto;
+import com.korit.senicare.dto.response.customer.GetCustomerResponseDto;
 import com.korit.senicare.entity.CustomerEntity;
 import com.korit.senicare.repository.CustomerRepository;
 import com.korit.senicare.repository.NurseRepository;
 import com.korit.senicare.repository.resultSet.GetCustomerResultSet;
+import com.korit.senicare.repository.resultSet.GetCustomersResultSet;
 import com.korit.senicare.service.CustomerService;
 
 import lombok.RequiredArgsConstructor;
@@ -52,7 +54,7 @@ public class CustomerServiceImplement implements CustomerService {
     @Override
     public ResponseEntity<? super GetCustomerListResponseDto> getCustomerList() {
 
-        List<GetCustomerResultSet> resultSets = new ArrayList<>();
+        List<GetCustomersResultSet> resultSets = new ArrayList<>();
 
         try {
 
@@ -64,6 +66,25 @@ public class CustomerServiceImplement implements CustomerService {
         }
 
         return GetCustomerListResponseDto.success(resultSets);
+
+    }
+
+    // 고객 정보 보기
+    @Override
+    public ResponseEntity<? super GetCustomerResponseDto> getCustomer(Integer customerNumber) {
+
+        GetCustomerResultSet resultSet = null;
+
+        try {
+
+            resultSet = customerRepository
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return GetCustomerResponseDto.success(resultSet);
 
     }
     

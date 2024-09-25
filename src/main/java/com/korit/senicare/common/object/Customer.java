@@ -2,7 +2,7 @@ package com.korit.senicare.common.object;
 
 import java.util.List;
 
-import com.korit.senicare.repository.resultSet.GetCustomerResultSet;
+import com.korit.senicare.repository.resultSet.GetCustomersResultSet;
 
 import java.util.ArrayList;
 
@@ -23,7 +23,7 @@ public class Customer {
     // : CustomerEntity와 NurseEntity join해서 결과를 얻어와야 함
 
     // 생성자
-    private Customer(GetCustomerResultSet resultSet) {
+    private Customer(GetCustomersResultSet resultSet) {
         this.customerNumber = resultSet.getCustomerNumber();
         this.name = resultSet.getName();
         this.birth = resultSet.getBirth();
@@ -32,11 +32,11 @@ public class Customer {
         this.chargerId = resultSet.getChargerId();
     }
 
-    public static List<Customer> getList(List<GetCustomerResultSet> resultSets) {
+    public static List<Customer> getList(List<GetCustomersResultSet> resultSets) {
 
         List<Customer> customers = new ArrayList<>();
 
-        for (GetCustomerResultSet resultSet: resultSets) {
+        for (GetCustomersResultSet resultSet: resultSets) {
             Customer customer = new Customer(resultSet);
             customers.add(customer);
         }
