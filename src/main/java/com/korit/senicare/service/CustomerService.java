@@ -3,6 +3,7 @@ package com.korit.senicare.service;
 import org.springframework.http.ResponseEntity;
 
 import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
+import com.korit.senicare.dto.request.customer.PostCareRecordRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerListResponseDto;
@@ -21,4 +22,6 @@ public interface CustomerService {
                                                                                                    // 접근 주체 아이디
     // 고객 삭제
     ResponseEntity<ResponseDto> deleteCustomer(Integer customerNumber, String userId);
+    // 기록 작성
+    ResponseEntity<ResponseDto> postCareRecord(PostCareRecordRequestDto dto, Integer customerNumber, String userId);
 }
