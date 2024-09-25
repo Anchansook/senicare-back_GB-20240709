@@ -13,6 +13,8 @@ import com.korit.senicare.entity.CareRecordEntity;
 
 import lombok.Getter;
 
+//# 관리 기록 작성에 전달하기 위한 데이터 객체
+
 @Getter
 public class GetCareRecordListReponseDto extends ResponseDto {
 

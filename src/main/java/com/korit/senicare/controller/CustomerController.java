@@ -15,6 +15,7 @@ import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
 import com.korit.senicare.dto.request.customer.PostCareRecordRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
+import com.korit.senicare.dto.response.customer.GetCareRecordListReponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerListResponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerResponseDto;
 import com.korit.senicare.service.CustomerService;
@@ -90,6 +91,15 @@ public class CustomerController {
         ) return ResponseDto.validationFail();
 
         ResponseEntity<ResponseDto> response = customerService.postCareRecord(requestBody, customerNumber, userId);
+        return response;
+    }
+
+    // 관리 기록 리스트 보기
+    @GetMapping("/{customerNumber}/care-records")
+    public ResponseEntity<? super GetCareRecordListReponseDto> getCareRecordList(
+        @PathVariable("customerNumber") Integer customerNumber
+    ) {
+        ResponseEntity<? super GetCareRecordListReponseDto> response = customerService.getCareRecordList(customerNumber);
         return response;
     }
     

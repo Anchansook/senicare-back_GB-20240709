@@ -6,6 +6,7 @@ import com.korit.senicare.dto.request.customer.PatchCustomerRequestDto;
 import com.korit.senicare.dto.request.customer.PostCareRecordRequestDto;
 import com.korit.senicare.dto.request.customer.PostCustomerRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
+import com.korit.senicare.dto.response.customer.GetCareRecordListReponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerListResponseDto;
 import com.korit.senicare.dto.response.customer.GetCustomerResponseDto;
 
@@ -24,4 +25,6 @@ public interface CustomerService {
     ResponseEntity<ResponseDto> deleteCustomer(Integer customerNumber, String userId);
     // 기록 작성
     ResponseEntity<ResponseDto> postCareRecord(PostCareRecordRequestDto dto, Integer customerNumber, String userId);
+    // 관리 기록 리스트 보기
+    ResponseEntity<? super GetCareRecordListReponseDto> getCareRecordList(Integer customerNumber);
 }
