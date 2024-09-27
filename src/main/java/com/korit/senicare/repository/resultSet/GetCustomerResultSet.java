@@ -10,4 +10,5 @@ public interface GetCustomerResultSet {
     String getChargerName();
     String getChargerId();
     String getAddress();
+    String getLocation();
 }

@@ -21,6 +21,7 @@ public class GetCustomerResponseDto extends ResponseDto {
     private String chargerName;
     private String chargerId;
     private String address;
+    private String location;
 
     // 생성자
     private GetCustomerResponseDto(GetCustomerResultSet resultSet) {
@@ -32,6 +33,7 @@ public class GetCustomerResponseDto extends ResponseDto {
         this.chargerName = resultSet.getChargerName();
         this.chargerId = resultSet.getChargerId();
         this.address = resultSet.getAddress();
+        this.location = resultSet.getLocation();
     }
 
     public static ResponseEntity<GetCustomerResponseDto> success(GetCustomerResultSet resultSet) {
