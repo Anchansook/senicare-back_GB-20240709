@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.korit.senicare.dto.request.nurse.PatchNurseRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseListResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseResponseDto;
@@ -81,5 +82,28 @@ public class NurseServiceImplement implements NurseService {
 
     }
     // 로직 똑같아도 남 정보, 내 정보 불러오기 별개로 작성해야 함
+
+    // 요양사 수정(이름만)
+    @Override
+    public ResponseEntity<ResponseDto> patchNurse(PatchNurseRequestDto dto, String userId) {
+
+        try {
+
+            String name = dto.getName();
+
+            NurseEntity nurseEntity = nurseRepository.findByUserId(userId);
+            if (nurseEntity == null) return ResponseDto.noExistUserId();
+            nurseEntity.setName(name);
+
+            nurseRepository.save(nurseEntity);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            return ResponseDto.databaseError();
+        }
+
+        return ResponseDto.success();
+
+    }
     
 }

@@ -3,15 +3,20 @@ package com.korit.senicare.controller;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.korit.senicare.dto.request.nurse.PatchNurseRequestDto;
+import com.korit.senicare.dto.response.ResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseListResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseResponseDto;
 import com.korit.senicare.dto.response.nurse.GetSignInResponseDto;
 import com.korit.senicare.service.NurseService;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -46,4 +51,13 @@ public class NurseController {
         return response;
     }
     
+    // 요양사 수정(이름만)
+    @PatchMapping(value={"", "/"})
+    public ResponseEntity<ResponseDto> patchNurse(
+        @RequestBody @Valid PatchNurseRequestDto requesteBody,
+        @AuthenticationPrincipal String userId
+    ) {
+        ResponseEntity<ResponseDto> response = nurseService.patchNurse(requesteBody, userId);
+        return response;
+    }
 }
