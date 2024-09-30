@@ -6,12 +6,16 @@ import java.util.ArrayList;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.korit.senicare.common.object.ChargedCustomer;
 import com.korit.senicare.dto.request.nurse.PatchNurseRequestDto;
 import com.korit.senicare.dto.response.ResponseDto;
+import com.korit.senicare.dto.response.nurse.GetChargedCustomerResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseListResponseDto;
 import com.korit.senicare.dto.response.nurse.GetNurseResponseDto;
 import com.korit.senicare.dto.response.nurse.GetSignInResponseDto;
+import com.korit.senicare.entity.CustomerEntity;
 import com.korit.senicare.entity.NurseEntity;
+import com.korit.senicare.repository.CustomerRepository;
 import com.korit.senicare.repository.NurseRepository;
 import com.korit.senicare.service.NurseService;
 
@@ -22,6 +26,7 @@ import lombok.RequiredArgsConstructor;
 public class NurseServiceImplement implements NurseService {
 
     private final NurseRepository nurseRepository;
+    private final CustomerRepository customerRepository;
 
     // 로그인 유저 정보 확인
     @Override
@@ -103,6 +108,26 @@ public class NurseServiceImplement implements NurseService {
         }
 
         return ResponseDto.success();
+
+    }
+
+    // 담당자의 담당 고객 리스트 불러오기
+    @Override
+    public ResponseEntity<? super GetChargedCustomerResponseDto> getCharedCustomer(String nurseId) {
+
+        List<CustomerEntity> customerEntities = new ArrayList<>();
+
+        try {
+
+            // CustomerRepository가서 쿼리 작성
+            customerEntities = customerRepository.findByCharger(nurseId);
+
+        } catch(Exception exception) {
+            exception.printStackTrace();
+            ResponseDto.databaseError();
+        }
+
+        return GetChargedCustomerResponseDto.success(customerEntities);
 
     }
     

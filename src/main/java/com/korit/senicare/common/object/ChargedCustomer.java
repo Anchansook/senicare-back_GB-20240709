@@ -34,5 +34,4 @@ public class ChargedCustomer {
         return customers;
     }
 }
-
 // CustomerEntity로 다 표현 가능 resultSet 필요 없음
