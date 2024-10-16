@@ -26,6 +26,7 @@ public class CareRecord {
         this.count = careRecordEntity.getCount();
     }
 
+    // List<CareRecordEntity> -> List<CareRecord> 바꾸는 작업
     public static List<CareRecord> getList(List<CareRecordEntity> careRecordEntities) {
 
         List<CareRecord> careRecords = new ArrayList<>();
